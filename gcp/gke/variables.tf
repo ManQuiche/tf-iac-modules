@@ -48,6 +48,11 @@ variable "dataplane_v2_enabled" {
   default = false
 }
 
+variable "deletion_protection" {
+  type    = bool
+  default = true
+}
+
 ////////////////
 // Nodes
 ////////////////
