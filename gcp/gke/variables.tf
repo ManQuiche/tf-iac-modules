@@ -7,12 +7,12 @@ variable "cluster_name" {
 }
 
 variable "cluster_version_prefix" {
-  type = string
+  type    = string
   default = "1.28"
 }
 
 variable "cluster_version" {
-  type = string
+  type    = string
   default = null
 }
 
@@ -21,7 +21,7 @@ variable "region" {
 }
 
 variable "zone" {
-  type = string
+  type    = string
   default = null
 }
 
@@ -38,8 +38,13 @@ variable "vpc_main_subnet" {
 // Cluster
 ////////////////
 
-variable "enable_dataplane_v2" {
-  type = bool
+variable "autoscaling_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "dataplane_v2_enabled" {
+  type    = bool
   default = false
 }
 
@@ -65,3 +70,14 @@ variable "node_count" {
   type    = number
   default = 3
 }
+
+
+variable "autoscaling_min_node_count" {
+  type = number
+}
+
+
+variable "autoscaling_max_node_count" {
+  type = number
+}
+

@@ -18,8 +18,12 @@ resource "google_container_cluster" "primary" {
 
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
-  
-  datapath_provider = var.enable_dataplane_v2 ? "ADVANCED_DATAPATH" : "LEGACY_DATAPATH"
+
+  datapath_provider = var.dataplane_v2_enabled ? "ADVANCED_DATAPATH" : "LEGACY_DATAPATH"
+
+  cluster_autoscaling {
+    enabled = var.autoscaling_enabled
+  }
 }
 
 resource "google_container_node_pool" "nodes" {
@@ -30,6 +34,12 @@ resource "google_container_node_pool" "nodes" {
 
   version    = try(var.cluster_version, data.google_container_engine_versions.gke_version.release_channel_default_version["STABLE"])
   node_count = var.node_count
+
+
+  autoscaling {
+    min_node_count = try(var.autoscaling_min_node_count, null)
+    max_node_count = try(var.autoscaling_max_node_count, null)
+  }
 
   node_config {
     oauth_scopes = [
@@ -45,7 +55,7 @@ resource "google_container_node_pool" "nodes" {
 
     machine_type = var.instance_type
     tags         = ["gke-node", "${var.project_id}-gke"]
-    metadata     = {
+    metadata = {
       disable-legacy-endpoints = "true"
     }
   }
