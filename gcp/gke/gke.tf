@@ -24,7 +24,7 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "nodes" {
   project  = var.project_id
-  name     = "${google_container_cluster.primary.name}-${node_pool_name}"
+  name     = "${google_container_cluster.primary.name}-${var.node_pool_name}"
   location = try(var.zone, var.region)
   cluster  = google_container_cluster.primary.name
 

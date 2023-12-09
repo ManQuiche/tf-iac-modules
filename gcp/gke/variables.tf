@@ -47,6 +47,10 @@ variable "enable_dataplane_v2" {
 // Nodes
 ////////////////
 
+variable "node_pool_name" {
+  type = string
+}
+
 variable "instance_type" {
   type    = string
   default = "e2-standard-2"
